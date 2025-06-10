@@ -5,7 +5,9 @@ import br.com.alura.screensound.model.Musica;
 import br.com.alura.screensound.model.TipoArtista;
 import br.com.alura.screensound.repository.ArtistaRepository;
 import br.com.alura.screensound.service.ConsultaChatGPT;
+import br.com.alura.screensound.service.ConsultaGemini;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -110,10 +112,14 @@ public class Principal {
     private void pesquisarDadosDoArtista() {
         System.out.println("Pesquisar dados sobre qual artista? ");
         var nome = leitura.nextLine();
-        var resposta = ConsultaChatGPT.obterInformacao(nome);
-        System.out.println(resposta.trim());
-
-
+        try {
+            // 'resposta' AQUI JÁ DEVE SER APENAS A STRING COM O TEXTO DO ARTISTA
+            var resposta = ConsultaGemini.obterInformacao(nome);
+            System.out.println(resposta.trim()); // Isso imprimirá APENAS o texto
+        } catch (IOException e) {
+            System.err.println("Ocorreu um erro ao consultar o Gemini: " + e.getMessage());
+            // Não há necessidade de retornar nada aqui, já que o método é void.
+        }
     }
 
 
