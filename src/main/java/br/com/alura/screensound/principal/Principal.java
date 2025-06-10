@@ -4,6 +4,7 @@ import br.com.alura.screensound.model.Artista;
 import br.com.alura.screensound.model.Musica;
 import br.com.alura.screensound.model.TipoArtista;
 import br.com.alura.screensound.repository.ArtistaRepository;
+import br.com.alura.screensound.service.ConsultaChatGPT;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ public class Principal {
     private final ArtistaRepository repositorio;
 
     Scanner leitura = new Scanner(System.in);
+    ConsultaGemini consultaGemini = new ConsultaGemini();
 
     public Principal(ArtistaRepository repositorio) {
         this.repositorio = repositorio;
@@ -96,11 +98,22 @@ public class Principal {
     }
     private void listarMusicas() {
         List<Artista> artistas = repositorio.findAll();
-        artistas.forEach(System.out::println);
+        artistas.forEach(a -> a.getMusicas().forEach(System.out::println));
     }
     private void buscarMusicasPorArtistas() {
+
+        System.out.println("Buscar músicas de que artista?");
+        var nome = leitura.nextLine();
+        List<Musica> musicas = repositorio.buscaMusicasPorArtista(nome);
+        musicas.forEach(System.out::println);
     }
     private void pesquisarDadosDoArtista() {
+        System.out.println("Pesquisar dados sobre qual artista? ");
+        var nome = leitura.nextLine();
+        var resposta = ConsultaChatGPT.obterInformacao(nome);
+        System.out.println(resposta.trim());
+
+
     }
 
 
