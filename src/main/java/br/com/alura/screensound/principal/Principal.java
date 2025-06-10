@@ -14,7 +14,7 @@ public class Principal {
     private final ArtistaRepository repositorio;
 
     Scanner leitura = new Scanner(System.in);
-    ConsultaGemini consultaGemini = new ConsultaGemini();
+
 
     public Principal(ArtistaRepository repositorio) {
         this.repositorio = repositorio;
